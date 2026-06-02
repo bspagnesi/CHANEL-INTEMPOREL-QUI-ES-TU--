@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHANEL - Qui Es-Tu? | Fragrance Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Fixed Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-text">CHANEL</div>
+            <div class="logo-cc">CC</div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Screen 1: Welcome -->
+        <section id="screen-1" class="screen active">
+            <div class="screen-content">
+                <h1 class="main-title">DISCOVER YOUR IDENTITY</h1>
+                <h2 class="subtitle">QUI ES-TU ?</h2>
+                <p class="description">Find your perfect Chanel fragrance</p>
+                <button class="btn btn-primary" onclick="navigateTo(2)">BEGIN YOUR JOURNEY</button>
+            </div>
+        </section>
+
+        <!-- Screen 2: Gender Selection -->
+        <section id="screen-2" class="screen">
+            <div class="screen-content">
+                <h1 class="main-title">POUR QUI?</h1>
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="setGender('elle'); navigateTo(3)">
+                        POUR ELLE
+                    </button>
+                    <button class="btn btn-secondary" onclick="setGender('lui'); navigateTo(3)">
+                        POUR LUI
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 3: Personality Type -->
+        <section id="screen-3" class="screen">
+            <div class="screen-content">
+                <h1 class="main-title">WHO ARE YOU?</h1>
+                <div class="options-grid">
+                    <div class="option-card" onclick="setPersonality('visionary'); navigateTo(4)">
+                        <h3>THE VISIONARY</h3>
+                        <p>You see possibilities before others do.</p>
+                    </div>
+                    <div class="option-card" onclick="setPersonality('emancipated'); navigateTo(4)">
+                        <h3>THE EMANCIPATED</h3>
+                        <p>You define your own path and inspire others.</p>
+                    </div>
+                    <div class="option-card" onclick="setPersonality('creative'); navigateTo(4)">
+                        <h3>THE CREATIVE</h3>
+                        <p>You express yourself through imagination and originality.</p>
+                    </div>
+                    <div class="option-card" onclick="setPersonality('authentic'); navigateTo(4)">
+                        <h3>THE AUTHENTIC</h3>
+                        <p>You find beauty in simplicity and truth.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 4: What Drives You -->
+        <section id="screen-4" class="screen">
+            <div class="screen-content">
+                <h1 class="main-title">WHAT DRIVES YOU?</h1>
+                <div class="options-grid">
+                    <div class="option-card" onclick="setDrive('onmove'); navigateTo(5)">
+                        <h3>ALWAYS ON THE MOVE</h3>
+                    </div>
+                    <div class="option-card" onclick="setDrive('connections'); navigateTo(5)">
+                        <h3>SEEKING MEANINGFUL CONNECTIONS</h3>
+                    </div>
+                    <div class="option-card" onclick="setDrive('creating'); navigateTo(5)">
+                        <h3>CREATING SOMETHING NEW</h3>
+                    </div>
+                    <div class="option-card" onclick="setDrive('balance'); navigateTo(5)">
+                        <h3>FINDING BALANCE</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 5: What Inspires You -->
+        <section id="screen-5" class="screen">
+            <div class="screen-content">
+                <h1 class="main-title">WHAT INSPIRES YOU?</h1>
+                <div class="options-grid">
+                    <div class="option-card" onclick="setInspiration('art'); navigateTo(6)">
+                        <h3>ART & CULTURE</h3>
+                    </div>
+                    <div class="option-card" onclick="setInspiration('adventure'); navigateTo(6)">
+                        <h3>ADVENTURE & DISCOVERY</h3>
+                    </div>
+                    <div class="option-card" onclick="setInspiration('people'); navigateTo(6)">
+                        <h3>PEOPLE & EMOTIONS</h3>
+                    </div>
+                    <div class="option-card" onclick="setInspiration('nature'); navigateTo(6)">
+                        <h3>NATURE & WELL-BEING</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 6: Visual World -->
+        <section id="screen-6" class="screen">
+            <div class="screen-content">
+                <h1 class="main-title">WHAT IS YOUR VISUAL WORLD?</h1>
+                <div class="options-grid">
+                    <div class="option-card" onclick="setVisual('modern'); navigateTo(7)">
+                        <h3>MODERN LUXURY</h3>
+                    </div>
+                    <div class="option-card" onclick="setVisual('timeless'); navigateTo(7)">
+                        <h3>TIMELESS ELEGANCE</h3>
+                    </div>
+                    <div class="option-card" onclick="setVisual('sensual'); navigateTo(7)">
+                        <h3>SENSUAL WARMTH</h3>
+                    </div>
+                    <div class="option-card" onclick="setVisual('bold'); navigateTo(7)">
+                        <h3>BOLD INDIVIDUALITY</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 7: Results -->
+        <section id="screen-7" class="screen">
+            <div class="screen-content results-content">
+                <h1 class="main-title">YOUR PERFECT FRAGRANCE</h1>
+                <div class="result-card">
+                    <h2 id="result-name" class="result-name">---</h2>
+                    <p id="result-description" class="result-description">---</p>
+                    <div class="result-details">
+                        <p><strong>Collection:</strong> <span id="result-collection">---</span></p>
+                        <p><strong>Essence:</strong> <span id="result-essence">---</span></p>
+                        <p><strong>Spirit:</strong> <span id="result-spirit">---</span></p>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="resetQuiz()">START OVER</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <button class="nav-btn nav-back" id="back-btn" onclick="goBack()" style="display: none;">
+                ← BACK
+            </button>
+            <div class="progress-bar">
+                <div id="progress" class="progress-fill"></div>
+            </div>
+        </nav>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
