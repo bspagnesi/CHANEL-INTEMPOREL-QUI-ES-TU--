@@ -54,7 +54,7 @@ body {
     max-width: 1200px;
     padding: 0 40px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
@@ -74,6 +74,9 @@ body {
     margin-top: 70px;
     min-height: calc(100vh - 70px);
     padding-bottom: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ============================================
@@ -106,6 +109,9 @@ body {
     align-items: center;
     padding: 60px 40px;
     text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* ============================================
@@ -278,13 +284,15 @@ body {
 
 .results-content {
     padding: 40px;
+    width: 100%;
+    max-width: 900px;
 }
 
 .fragrance-container {
     display: flex;
-    gap: 60px;
-    max-width: 1000px;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
     margin-bottom: 60px;
 }
 
@@ -293,11 +301,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 280px;
+    width: 100%;
 }
 
 .fragrance-image {
-    max-width: 260px;
+    max-width: 280px;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.12));
@@ -305,7 +313,8 @@ body {
 
 .fragrance-info {
     flex: 1;
-    text-align: left;
+    text-align: center;
+    width: 100%;
 }
 
 .fragrance-name {
@@ -348,6 +357,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+    justify-content: center;
 }
 
 .note-tag {
@@ -429,8 +439,9 @@ body {
     padding: 25px 35px;
     margin-bottom: 40px;
     max-width: 600px;
-    text-align: left;
+    text-align: center;
     border-radius: 3px;
+    align-self: center;
 }
 
 #score-breakdown {
@@ -468,6 +479,7 @@ body {
     padding: 0 40px;
     gap: 20px;
     z-index: 999;
+    justify-content: center;
 }
 
 .nav-btn {
@@ -491,7 +503,7 @@ body {
 }
 
 .progress-bar {
-    flex: 1;
+    flex: 0 0 300px;
     height: 2px;
     background-color: #e8e8e8;
     overflow: hidden;
@@ -521,6 +533,10 @@ body {
     .fragrance-name {
         font-size: 36px;
     }
+
+    .fragrance-info {
+        text-align: center;
+    }
 }
 
 @media (max-width: 768px) {
@@ -538,6 +554,7 @@ body {
 
     .header-content {
         padding: 0 20px;
+        justify-content: center;
     }
 
     .logo-text {
@@ -599,6 +616,10 @@ body {
         font-size: 10px;
     }
 
+    .progress-bar {
+        flex: 0 0 200px;
+    }
+
     .fragrance-image {
         max-width: 200px;
     }
@@ -613,6 +634,11 @@ body {
 
     .score-breakdown {
         padding: 20px 25px;
+        margin: 0 auto 25px;
+    }
+
+    .results-content {
+        padding: 40px 20px;
     }
 }
 
@@ -632,6 +658,7 @@ body {
 
     .header-content {
         padding: 0 15px;
+        justify-content: center;
     }
 
     .logo-text {
@@ -686,11 +713,19 @@ body {
     .navigation {
         padding: 0 15px;
         height: 60px;
+        flex-direction: column;
+        gap: 8px;
     }
 
     .nav-btn {
         padding: 7px 14px;
         font-size: 9px;
+        order: 2;
+    }
+
+    .progress-bar {
+        flex: 1;
+        order: 1;
     }
 
     .fragrance-image {
@@ -721,10 +756,15 @@ body {
     .score-breakdown {
         padding: 15px 20px;
         margin-bottom: 25px;
+        max-width: 100%;
     }
 
     #score-breakdown {
         font-size: 12px;
         line-height: 1.8;
+    }
+
+    .fragrance-container {
+        gap: 25px;
     }
 }
