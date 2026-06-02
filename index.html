@@ -133,26 +133,40 @@
         <!-- Screen 7: Results -->
         <section id="screen-7" class="screen">
             <div class="screen-content results-content">
-                <h1 class="main-title">YOUR PERFECT FRAGRANCE</h1>
-                
-                <!-- Archetype Information -->
-                <div class="archetype-badge">
-                    <p id="archetype-info">Your Primary Archetype: ---</p>
-                </div>
+                <!-- Fragrance Recommendation Card -->
+                <div class="fragrance-container">
+                    <!-- Fragrance Image -->
+                    <div class="fragrance-image-wrapper fade-in-up">
+                        <img id="fragrance-image" class="fragrance-image" src="" alt="Fragrance Bottle">
+                    </div>
 
-                <!-- Recommendation Card -->
-                <div class="result-card">
-                    <h2 id="result-name" class="result-name">---</h2>
-                    <p id="result-description" class="result-description">---</p>
-                    <div class="result-details">
-                        <p><strong>Collection:</strong> <span id="result-collection">---</span></p>
-                        <p><strong>Essence:</strong> <span id="result-essence">---</span></p>
-                        <p><strong>Spirit:</strong> <span id="result-spirit">---</span></p>
+                    <!-- Fragrance Info -->
+                    <div class="fragrance-info fade-in-up-delay-1">
+                        <h1 id="fragrance-name" class="fragrance-name">---</h1>
+                        <p id="fragrance-description" class="fragrance-description">---</p>
+
+                        <!-- Key Notes -->
+                        <div class="key-notes">
+                            <h3>KEY NOTES</h3>
+                            <div id="key-notes-list" class="notes-list">
+                                <!-- Notes will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Archetype Info -->
+                        <div class="archetype-info fade-in-up-delay-2">
+                            <p id="archetype-display">Your Archetype: <strong>---</strong></p>
+                        </div>
+
+                        <!-- CTA Button -->
+                        <button id="discover-btn" class="btn btn-discover fade-in-up-delay-3" onclick="openFragrancePage()">
+                            DISCOVER
+                        </button>
                     </div>
                 </div>
 
                 <!-- Score Breakdown -->
-                <div class="score-breakdown">
+                <div class="score-breakdown fade-in-up-delay-4">
                     <div id="score-breakdown">
                         <strong>Archetype Scores:</strong><br>
                         Visionary: 0 points<br>
@@ -163,7 +177,7 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="button-group">
+                <div class="button-group fade-in-up-delay-5">
                     <button class="btn btn-primary" onclick="resetQuiz()">START OVER</button>
                 </div>
             </div>
