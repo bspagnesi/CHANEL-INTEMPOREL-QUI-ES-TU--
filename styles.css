@@ -11,10 +11,10 @@
 :root {
     --primary-color: #000;
     --secondary-color: #fff;
-    --accent-color: #f0f0f0;
+    --accent-color: #f5f5f5;
     --text-color: #000;
     --transition-duration: 0.6s;
-    --font-serif: 'Georgia', 'Garamond', serif;
+    --font-serif: 'Garamond', 'Georgia', serif;
     --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
 }
 
@@ -39,14 +39,14 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 70px;
     background-color: var(--secondary-color);
-    border-bottom: 1px solid var(--accent-color);
+    border-bottom: 1px solid #e8e8e8;
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
 }
 
 .header-content {
@@ -54,22 +54,15 @@ body {
     max-width: 1200px;
     padding: 0 40px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .logo-text {
     font-family: var(--font-serif);
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--text-color);
-}
-
-.logo-cc {
-    font-family: var(--font-serif);
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 3px;
     color: var(--text-color);
 }
 
@@ -78,8 +71,8 @@ body {
    ============================================ */
 
 .container {
-    margin-top: 80px;
-    min-height: calc(100vh - 80px);
+    margin-top: 70px;
+    min-height: calc(100vh - 70px);
     padding-bottom: 80px;
 }
 
@@ -91,7 +84,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    top: 80px;
+    top: 70px;
     left: 0;
     opacity: 0;
     pointer-events: none;
@@ -106,7 +99,7 @@ body {
 }
 
 .screen-content {
-    min-height: calc(100vh - 80px - 80px);
+    min-height: calc(100vh - 70px - 80px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -119,13 +112,23 @@ body {
    TYPOGRAPHY
    ============================================ */
 
+.intro-subtitle {
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    opacity: 0.6;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
 .main-title {
     font-family: var(--font-serif);
-    font-size: 56px;
-    font-weight: 700;
+    font-size: 64px;
+    font-weight: 400;
     letter-spacing: 3px;
-    margin-bottom: 20px;
-    line-height: 1.2;
+    margin-bottom: 25px;
+    line-height: 1.1;
     color: var(--text-color);
 }
 
@@ -140,11 +143,12 @@ body {
 }
 
 .description {
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 1px;
     margin-bottom: 40px;
     color: var(--text-color);
-    opacity: 0.7;
+    opacity: 0.6;
+    font-weight: 300;
 }
 
 /* ============================================
@@ -152,11 +156,11 @@ body {
    ============================================ */
 
 .btn {
-    padding: 16px 48px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 14px 45px;
+    font-size: 12px;
+    font-weight: 500;
     letter-spacing: 2px;
-    border: 2px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
     background-color: transparent;
     color: var(--primary-color);
     cursor: pointer;
@@ -195,12 +199,12 @@ body {
 }
 
 .btn-discover {
-    border: 2px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    padding: 14px 50px;
-    font-size: 13px;
-    letter-spacing: 2.5px;
+    padding: 12px 48px;
+    font-size: 12px;
+    letter-spacing: 2px;
     margin-top: 30px;
     width: auto;
 }
@@ -224,21 +228,21 @@ body {
 
 .options-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
     margin-top: 50px;
     width: 100%;
     max-width: 1000px;
 }
 
 .option-card {
-    padding: 40px 30px;
-    border: 1px solid var(--accent-color);
+    padding: 35px 25px;
+    border: 1px solid #e8e8e8;
     background-color: var(--secondary-color);
     cursor: pointer;
     transition: all 0.4s ease;
     text-align: center;
-    min-height: 200px;
+    min-height: 180px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -246,25 +250,26 @@ body {
 
 .option-card:hover {
     border-color: var(--primary-color);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     transform: translateY(-4px);
     background-color: var(--accent-color);
 }
 
 .option-card h3 {
     font-family: var(--font-serif);
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 400;
     letter-spacing: 1px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     color: var(--text-color);
 }
 
 .option-card p {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.6;
     color: var(--text-color);
-    opacity: 0.7;
+    opacity: 0.65;
+    font-weight: 300;
 }
 
 /* ============================================
@@ -272,14 +277,14 @@ body {
    ============================================ */
 
 .results-content {
-    padding: 60px 40px;
+    padding: 40px;
 }
 
 .fragrance-container {
     display: flex;
     gap: 60px;
     max-width: 1000px;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 60px;
 }
 
@@ -288,14 +293,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 300px;
+    min-width: 280px;
 }
 
 .fragrance-image {
-    max-width: 280px;
+    max-width: 260px;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.12));
 }
 
 .fragrance-info {
@@ -305,66 +310,69 @@ body {
 
 .fragrance-name {
     font-family: var(--font-serif);
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
     color: var(--text-color);
     line-height: 1.1;
 }
 
 .fragrance-description {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.8;
     color: var(--text-color);
-    opacity: 0.85;
-    margin-bottom: 40px;
+    opacity: 0.75;
+    margin-bottom: 35px;
+    font-weight: 300;
 }
 
 .key-notes {
-    margin: 40px 0;
-    padding: 30px 0;
-    border-top: 1px solid #d0d0d0;
-    border-bottom: 1px solid #d0d0d0;
+    margin: 35px 0;
+    padding: 25px 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
 }
 
 .key-notes h3 {
     font-family: var(--font-serif);
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 400;
     letter-spacing: 2px;
     margin-bottom: 15px;
     color: var(--text-color);
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .notes-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 12px;
 }
 
 .note-tag {
     background-color: var(--accent-color);
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 12px;
+    padding: 7px 14px;
+    border-radius: 3px;
+    font-size: 11px;
     letter-spacing: 1px;
     color: var(--text-color);
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 400;
+    opacity: 0.8;
 }
 
 .archetype-info {
     margin: 25px 0;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-color);
+    opacity: 0.75;
 }
 
 .archetype-info strong {
     font-family: var(--font-serif);
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 400;
 }
 
 /* ============================================
@@ -374,7 +382,7 @@ body {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(25px);
     }
     to {
         opacity: 1;
@@ -382,41 +390,32 @@ body {
     }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 .fade-in-up {
-    animation: fadeInUp 0.8s ease-out forwards;
+    animation: fadeInUp 0.7s ease-out forwards;
 }
 
 .fade-in-up-delay-1 {
-    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    animation: fadeInUp 0.7s ease-out 0.15s forwards;
     opacity: 0;
 }
 
 .fade-in-up-delay-2 {
-    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    animation: fadeInUp 0.7s ease-out 0.3s forwards;
     opacity: 0;
 }
 
 .fade-in-up-delay-3 {
-    animation: fadeInUp 0.8s ease-out 0.6s forwards;
+    animation: fadeInUp 0.7s ease-out 0.45s forwards;
     opacity: 0;
 }
 
 .fade-in-up-delay-4 {
-    animation: fadeInUp 0.8s ease-out 0.8s forwards;
+    animation: fadeInUp 0.7s ease-out 0.6s forwards;
     opacity: 0;
 }
 
 .fade-in-up-delay-5 {
-    animation: fadeInUp 0.8s ease-out 1s forwards;
+    animation: fadeInUp 0.7s ease-out 0.75s forwards;
     opacity: 0;
 }
 
@@ -425,28 +424,31 @@ body {
    ============================================ */
 
 .score-breakdown {
-    background-color: var(--secondary-color);
-    border: 2px solid var(--primary-color);
-    padding: 30px 40px;
+    background-color: var(--accent-color);
+    border: 1px solid #e8e8e8;
+    padding: 25px 35px;
     margin-bottom: 40px;
     max-width: 600px;
     text-align: left;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 #score-breakdown {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 2;
     color: var(--text-color);
     font-family: var(--font-sans);
+    font-weight: 300;
 }
 
 #score-breakdown strong {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-family: var(--font-serif);
-    font-size: 16px;
-    letter-spacing: 1px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    font-weight: 400;
+    opacity: 0.8;
 }
 
 /* ============================================
@@ -460,7 +462,7 @@ body {
     right: 0;
     height: 80px;
     background-color: var(--secondary-color);
-    border-top: 1px solid var(--accent-color);
+    border-top: 1px solid #e8e8e8;
     display: flex;
     align-items: center;
     padding: 0 40px;
@@ -469,9 +471,9 @@ body {
 }
 
 .nav-btn {
-    padding: 12px 30px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 10px 25px;
+    font-size: 11px;
+    font-weight: 500;
     letter-spacing: 1.5px;
     border: 1px solid var(--primary-color);
     background-color: transparent;
@@ -490,8 +492,8 @@ body {
 
 .progress-bar {
     flex: 1;
-    height: 3px;
-    background-color: var(--accent-color);
+    height: 2px;
+    background-color: #e8e8e8;
     overflow: hidden;
 }
 
@@ -517,37 +519,39 @@ body {
     }
 
     .fragrance-name {
-        font-size: 38px;
+        font-size: 36px;
     }
 }
 
 @media (max-width: 768px) {
+    .header {
+        height: 60px;
+    }
+
+    .container {
+        margin-top: 60px;
+    }
+
+    .screen {
+        top: 60px;
+    }
+
     .header-content {
         padding: 0 20px;
     }
 
     .logo-text {
-        font-size: 18px;
-        letter-spacing: 1.5px;
-    }
-
-    .logo-cc {
-        font-size: 22px;
-    }
-
-    .main-title {
-        font-size: 36px;
+        font-size: 14px;
         letter-spacing: 2px;
     }
 
-    .subtitle {
-        font-size: 28px;
-        letter-spacing: 2.5px;
+    .main-title {
+        font-size: 44px;
+        letter-spacing: 2px;
     }
 
     .description {
-        font-size: 14px;
-        letter-spacing: 0.5px;
+        font-size: 13px;
     }
 
     .screen-content {
@@ -561,12 +565,12 @@ body {
     }
 
     .option-card {
-        padding: 30px 20px;
-        min-height: 160px;
+        padding: 25px 15px;
+        min-height: 150px;
     }
 
     .option-card h3 {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .option-card p {
@@ -579,10 +583,10 @@ body {
     }
 
     .btn {
-        padding: 14px 40px;
-        font-size: 12px;
+        padding: 12px 35px;
+        font-size: 11px;
         width: 100%;
-        max-width: 300px;
+        max-width: 280px;
     }
 
     .navigation {
@@ -591,12 +595,12 @@ body {
     }
 
     .nav-btn {
-        padding: 10px 20px;
-        font-size: 11px;
+        padding: 8px 18px;
+        font-size: 10px;
     }
 
     .fragrance-image {
-        max-width: 220px;
+        max-width: 200px;
     }
 
     .fragrance-name {
@@ -604,31 +608,26 @@ body {
     }
 
     .fragrance-description {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .score-breakdown {
-        padding: 20px 30px;
-        margin-bottom: 30px;
-    }
-
-    #score-breakdown {
-        font-size: 13px;
+        padding: 20px 25px;
     }
 }
 
 @media (max-width: 480px) {
     .header {
-        height: 70px;
+        height: 55px;
     }
 
     .container {
-        margin-top: 70px;
+        margin-top: 55px;
         padding-bottom: 70px;
     }
 
     .screen {
-        top: 70px;
+        top: 55px;
     }
 
     .header-content {
@@ -636,28 +635,23 @@ body {
     }
 
     .logo-text {
-        font-size: 14px;
-        letter-spacing: 1px;
+        font-size: 12px;
+        letter-spacing: 1.5px;
     }
 
-    .logo-cc {
-        font-size: 18px;
+    .intro-subtitle {
+        font-size: 11px;
     }
 
     .main-title {
-        font-size: 28px;
+        font-size: 32px;
         letter-spacing: 1.5px;
-        margin-bottom: 15px;
-    }
-
-    .subtitle {
-        font-size: 22px;
-        letter-spacing: 2px;
+        margin-bottom: 12px;
     }
 
     .description {
         font-size: 12px;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
     }
 
     .screen-content {
@@ -667,17 +661,17 @@ body {
 
     .options-grid {
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 12px;
     }
 
     .option-card {
-        padding: 25px 15px;
-        min-height: 140px;
+        padding: 20px 12px;
+        min-height: 130px;
     }
 
     .option-card h3 {
-        font-size: 14px;
-        margin-bottom: 10px;
+        font-size: 13px;
+        margin-bottom: 8px;
     }
 
     .option-card p {
@@ -685,23 +679,22 @@ body {
     }
 
     .btn {
-        padding: 12px 30px;
-        font-size: 11px;
+        padding: 11px 30px;
+        font-size: 10px;
     }
 
     .navigation {
         padding: 0 15px;
         height: 60px;
-        justify-content: flex-start;
     }
 
     .nav-btn {
-        padding: 8px 16px;
-        font-size: 10px;
+        padding: 7px 14px;
+        font-size: 9px;
     }
 
     .fragrance-image {
-        max-width: 180px;
+        max-width: 160px;
     }
 
     .fragrance-name {
@@ -709,25 +702,25 @@ body {
     }
 
     .fragrance-description {
-        font-size: 13px;
-    }
-
-    .key-notes h3 {
         font-size: 12px;
     }
 
-    .note-tag {
+    .key-notes h3 {
         font-size: 11px;
-        padding: 6px 12px;
+    }
+
+    .note-tag {
+        font-size: 10px;
+        padding: 6px 11px;
     }
 
     .results-content {
-        padding: 40px 20px;
+        padding: 25px 15px;
     }
 
     .score-breakdown {
         padding: 15px 20px;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
     }
 
     #score-breakdown {
