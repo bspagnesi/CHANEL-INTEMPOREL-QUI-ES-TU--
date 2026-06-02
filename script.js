@@ -1,263 +1,141 @@
 /* ============================================
-   CHANEL FRAGRANCE QUIZ - JAVASCRIPT
+   CHANEL FRAGRANCE QUIZ - JAVASCRIPT WITH SCORING SYSTEM
    ============================================ */
 
-// Quiz State
+// Quiz State with Scoring System
 let quizState = {
     currentScreen: 1,
     gender: '',
-    personality: '',
-    drive: '',
-    inspiration: '',
-    visual: ''
+    answers: {
+        personality: null,      // Question 3 - 70% weight
+        drive: null,            // Question 4 - 10% weight
+        inspiration: null,      // Question 5 - 10% weight
+        visual: null            // Question 6 - 10% weight
+    },
+    scores: {
+        visionary: 0,
+        emancipated: 0,
+        creative: 0,
+        authentic: 0
+    },
+    dominantArchetype: null,
+    recommendedFragrance: null
 };
 
-// Fragrance Database
-const fragrances = {
+// Archetype Scoring Map - Maps answers to archetype scores
+const archetypeMap = {
+    // Question 3 - Personality (70% weight = 70 points each)
+    personality: {
+        'visionary': { visionary: 70, emancipated: 0, creative: 0, authentic: 0 },
+        'emancipated': { visionary: 0, emancipated: 70, creative: 0, authentic: 0 },
+        'creative': { visionary: 0, emancipated: 0, creative: 70, authentic: 0 },
+        'authentic': { visionary: 0, emancipated: 0, creative: 0, authentic: 70 }
+    },
+    // Question 4 - What Drives You (10% weight = 10 points distributed)
+    drive: {
+        'onmove': { visionary: 5, emancipated: 5, creative: 0, authentic: 0 },
+        'connections': { visionary: 0, emancipated: 5, creative: 5, authentic: 0 },
+        'creating': { visionary: 5, emancipated: 0, creative: 5, authentic: 0 },
+        'balance': { visionary: 0, emancipated: 0, creative: 5, authentic: 5 }
+    },
+    // Question 5 - What Inspires You (10% weight = 10 points distributed)
+    inspiration: {
+        'art': { visionary: 5, emancipated: 0, creative: 5, authentic: 0 },
+        'adventure': { visionary: 5, emancipated: 5, creative: 0, authentic: 0 },
+        'people': { visionary: 0, emancipated: 5, creative: 5, authentic: 0 },
+        'nature': { visionary: 0, emancipated: 0, creative: 5, authentic: 5 }
+    },
+    // Question 6 - Visual World (10% weight = 10 points distributed)
+    visual: {
+        'modern': { visionary: 5, emancipated: 5, creative: 0, authentic: 0 },
+        'timeless': { visionary: 0, emancipated: 0, creative: 5, authentic: 5 },
+        'sensual': { visionary: 0, emancipated: 5, creative: 5, authentic: 0 },
+        'bold': { visionary: 5, emancipated: 5, creative: 0, authentic: 0 }
+    }
+};
+
+// Fragrance Recommendations by Archetype
+const fragranceRecommendations = {
     elle: {
         visionary: {
-            onmove: {
-                art: { modern: 'ALLURE SPORT', sensual: 'CHANCE', timeless: 'N°5', bold: 'COCO MADEMOISELLE' },
-                connections: { modern: 'CHANCE', sensual: 'GABRIELLE', timeless: 'N°5', bold: 'COCO NOIR' },
-                creating: { modern: 'CHANCE EAU FRAÎCHE', sensual: 'GABRIELLE ESSENCE', timeless: 'N°5 EAU PREMIÈRE', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE EAU TENDRE', timeless: 'N°5 L\'EAU', bold: 'COCO' }
-            },
-            adventure: {
-                art: { modern: 'ALLURE SPORT', sensual: 'CHANCE', timeless: 'N°5', bold: 'COCO MADEMOISELLE' },
-                connections: { modern: 'ALLURE', sensual: 'CHANCE TENDER', timeless: 'CRISTALLE', bold: 'COCO' },
-                creating: { modern: 'ALLURE SPORT EXTREME', sensual: 'GABRIELLE', timeless: 'CRISTALLE', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE EAU TENDRE', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO MADEMOISELLE' }
-            },
-            people: {
-                art: { modern: 'CHANCE', sensual: 'GABRIELLE ESSENCE', timeless: 'N°5', bold: 'COCO NOIR' },
-                connections: { modern: 'CHANCE EAU TENDRE', sensual: 'GABRIELLE', timeless: 'N°5 L\'EAU', bold: 'COCO MADEMOISELLE' },
-                creating: { modern: 'CHANCE EAU FRAÎCHE', sensual: 'GABRIELLE CHANEL', timeless: 'N°5 EAU PREMIÈRE', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE', sensual: 'CHANCE', timeless: 'CRISTALLE', bold: 'COCO' }
-            },
-            nature: {
-                art: { modern: 'CRISTALLE', sensual: 'CHANCE EAU TENDRE', timeless: 'N°5', bold: 'COCO CHANEL' },
-                connections: { modern: 'ALLURE', sensual: 'GABRIELLE CHANEL', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO NOIR' },
-                creating: { modern: 'ALLURE SPORT', sensual: 'GABRIELLE', timeless: 'CRISTALLE', bold: 'COCO' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE TENDER', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO MADEMOISELLE' }
-            }
+            name: 'CHANEL N°5 L\'EAU',
+            description: 'A fresh interpretation of the iconic legend. For the visionary woman who sees beyond the present.',
+            essence: 'Innovation & Visionary Spirit',
+            collection: 'LES EXCLUSIVES POUR ELLE',
+            spirit: 'Timeless with a Modern Twist'
         },
         emancipated: {
-            onmove: {
-                art: { modern: 'COCO MADEMOISELLE', sensual: 'GABRIELLE', timeless: 'N°5', bold: 'COCO NOIR' },
-                connections: { modern: 'COCO', sensual: 'CHANCE', timeless: 'CRISTALLE', bold: 'COCO MADEMOISELLE' },
-                creating: { modern: 'ALLURE SPORT EXTREME', sensual: 'GABRIELLE ESSENCE', timeless: 'N°5 EAU PREMIÈRE', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE', sensual: 'CHANCE EAU FRAÎCHE', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO' }
-            },
-            adventure: {
-                art: { modern: 'ALLURE SPORT', sensual: 'GABRIELLE', timeless: 'CRISTALLE', bold: 'COCO NOIR' },
-                connections: { modern: 'COCO MADEMOISELLE', sensual: 'CHANCE TENDER', timeless: 'N°5', bold: 'COCO' },
-                creating: { modern: 'ALLURE SPORT EXTREME', sensual: 'GABRIELLE CHANEL', timeless: 'CRISTALLE EAU VERTE', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE', timeless: 'N°5 L\'EAU', bold: 'COCO MADEMOISELLE' }
-            },
-            people: {
-                art: { modern: 'COCO', sensual: 'GABRIELLE ESSENCE', timeless: 'N°5 EAU PREMIÈRE', bold: 'COCO NOIR' },
-                connections: { modern: 'COCO MADEMOISELLE', sensual: 'CHANCE', timeless: 'CRISTALLE', bold: 'COCO' },
-                creating: { modern: 'ALLURE', sensual: 'GABRIELLE', timeless: 'N°5', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE EAU TENDRE', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO MADEMOISELLE' }
-            },
-            nature: {
-                art: { modern: 'CRISTALLE', sensual: 'GABRIELLE CHANEL', timeless: 'N°5', bold: 'COCO' },
-                connections: { modern: 'ALLURE', sensual: 'CHANCE TENDER', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO NOIR' },
-                creating: { modern: 'ALLURE SPORT', sensual: 'GABRIELLE', timeless: 'CRISTALLE', bold: 'COCO MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE', timeless: 'N°5 L\'EAU', bold: 'COCO' }
-            }
+            name: 'COCO MADEMOISELLE',
+            description: 'Bold, spirited, and unapologetically confident. For the woman who defines her own path.',
+            essence: 'Liberation & Power',
+            collection: 'LES EXCLUSIVES POUR ELLE',
+            spirit: 'Bold Individuality'
         },
         creative: {
-            onmove: {
-                art: { modern: 'ALLURE SPORT', sensual: 'GABRIELLE ESSENCE', timeless: 'N°5 EAU PREMIÈRE', bold: 'MADEMOISELLE' },
-                connections: { modern: 'CHANCE EAU FRAÎCHE', sensual: 'GABRIELLE', timeless: 'CRISTALLE', bold: 'COCO NOIR' },
-                creating: { modern: 'ALLURE SPORT EXTREME', sensual: 'CHANCE', timeless: 'N°5', bold: 'COCO' },
-                balance: { modern: 'ALLURE', sensual: 'CHANCE EAU TENDRE', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO MADEMOISELLE' }
-            },
-            adventure: {
-                art: { modern: 'COCO MADEMOISELLE', sensual: 'GABRIELLE CHANEL', timeless: 'N°5', bold: 'COCO NOIR' },
-                connections: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE TENDER', timeless: 'CRISTALLE', bold: 'MADEMOISELLE' },
-                creating: { modern: 'ALLURE SPORT', sensual: 'GABRIELLE', timeless: 'N°5 L\'EAU', bold: 'COCO' },
-                balance: { modern: 'ALLURE', sensual: 'CHANCE', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO MADEMOISELLE' }
-            },
-            people: {
-                art: { modern: 'CHANCE', sensual: 'GABRIELLE ESSENCE', timeless: 'N°5 EAU PREMIÈRE', bold: 'COCO NOIR' },
-                connections: { modern: 'CHANCE EAU TENDRE', sensual: 'GABRIELLE', timeless: 'CRISTALLE', bold: 'COCO' },
-                creating: { modern: 'ALLURE SPORT EXTREME', sensual: 'CHANCE EAU FRAÎCHE', timeless: 'N°5', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE', timeless: 'N°5 L\'EAU', bold: 'COCO MADEMOISELLE' }
-            },
-            nature: {
-                art: { modern: 'CRISTALLE', sensual: 'GABRIELLE CHANEL', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO' },
-                connections: { modern: 'ALLURE', sensual: 'CHANCE TENDER', timeless: 'N°5', bold: 'COCO NOIR' },
-                creating: { modern: 'ALLURE SPORT', sensual: 'GABRIELLE', timeless: 'CRISTALLE', bold: 'COCO MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE EAU TENDRE', timeless: 'N°5 L\'EAU', bold: 'COCO' }
-            }
+            name: 'GABRIELLE CHANEL ESSENCE',
+            description: 'Pure expression of femininity and creativity. For the artist in every woman.',
+            essence: 'Expression & Artistry',
+            collection: 'LES EXCLUSIVES POUR ELLE',
+            spirit: 'Radiant Creativity'
         },
         authentic: {
-            onmove: {
-                art: { modern: 'ALLURE', sensual: 'GABRIELLE', timeless: 'N°5', bold: 'COCO NOIR' },
-                connections: { modern: 'CHANCE', sensual: 'GABRIELLE CHANEL', timeless: 'CRISTALLE', bold: 'COCO' },
-                creating: { modern: 'ALLURE SPORT', sensual: 'CHANCE EAU FRAÎCHE', timeless: 'N°5 EAU PREMIÈRE', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE EAU TENDRE', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO MADEMOISELLE' }
-            },
-            adventure: {
-                art: { modern: 'CRISTALLE', sensual: 'GABRIELLE ESSENCE', timeless: 'N°5', bold: 'COCO' },
-                connections: { modern: 'ALLURE', sensual: 'CHANCE TENDER', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO NOIR' },
-                creating: { modern: 'ALLURE SPORT EXTREME', sensual: 'GABRIELLE', timeless: 'CRISTALLE', bold: 'COCO MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE', timeless: 'N°5 L\'EAU', bold: 'COCO' }
-            },
-            people: {
-                art: { modern: 'CHANCE EAU FRAÎCHE', sensual: 'GABRIELLE CHANEL', timeless: 'N°5 EAU PREMIÈRE', bold: 'COCO NOIR' },
-                connections: { modern: 'COCO MADEMOISELLE', sensual: 'CHANCE', timeless: 'CRISTALLE', bold: 'COCO' },
-                creating: { modern: 'ALLURE', sensual: 'GABRIELLE ESSENCE', timeless: 'N°5', bold: 'MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE EAU TENDRE', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO MADEMOISELLE' }
-            },
-            nature: {
-                art: { modern: 'CRISTALLE', sensual: 'GABRIELLE', timeless: 'N°5', bold: 'COCO' },
-                connections: { modern: 'ALLURE', sensual: 'CHANCE TENDER', timeless: 'CRISTALLE EAU VERTE', bold: 'COCO NOIR' },
-                creating: { modern: 'ALLURE SPORT', sensual: 'GABRIELLE CHANEL', timeless: 'CRISTALLE', bold: 'COCO MADEMOISELLE' },
-                balance: { modern: 'ALLURE SENSUELLE', sensual: 'CHANCE', timeless: 'N°5 L\'EAU', bold: 'COCO' }
-            }
+            name: 'CHANCE EAU TENDRE',
+            description: 'Soft, romantic, and beautifully authentic. For the woman who finds truth in simplicity.',
+            essence: 'Truth & Simplicity',
+            collection: 'LES EXCLUSIVES POUR ELLE',
+            spirit: 'Tender Authenticity'
         }
     },
     lui: {
         visionary: {
-            onmove: {
-                art: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                connections: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME SPORT EX', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' }
-            },
-            adventure: {
-                art: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                connections: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME SPORT EXTREME', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' }
-            },
-            people: {
-                art: { modern: 'ALLURE HOMME', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM' },
-                creating: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' }
-            },
-            nature: {
-                art: { modern: 'POUR MONSIEUR', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                creating: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM ÉGOÏSTE' }
-            }
+            name: 'BLEU DE CHANEL PARFUM',
+            description: 'A visionary fragrance for the forward-thinking man. Sophisticated and innovative.',
+            essence: 'Innovation & Visionary Spirit',
+            collection: 'LES EXCLUSIVES POUR LUI',
+            spirit: 'Timeless Vision'
         },
         emancipated: {
-            onmove: {
-                art: { modern: 'PLATINUM', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME SPORT EXTREME', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                balance: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' }
-            },
-            adventure: {
-                art: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                connections: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME SPORT EXTREME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' }
-            },
-            people: {
-                art: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' }
-            },
-            nature: {
-                art: { modern: 'POUR MONSIEUR', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM' }
-            }
+            name: 'ALLURE HOMME SPORT',
+            description: 'Dynamic and liberated. For the man who writes his own rules.',
+            essence: 'Liberation & Power',
+            collection: 'LES EXCLUSIVES POUR LUI',
+            spirit: 'Bold Individuality'
         },
         creative: {
-            onmove: {
-                art: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                connections: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME SPORT EXTREME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                balance: { modern: 'ALLURE HOMME', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' }
-            },
-            adventure: {
-                art: { modern: 'PLATINUM', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM ÉGOÏSTE' },
-                creating: { modern: 'ALLURE HOMME SPORT', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                balance: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' }
-            },
-            people: {
-                art: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' },
-                connections: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                creating: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' }
-            },
-            nature: {
-                art: { modern: 'POUR MONSIEUR', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' }
-            }
+            name: 'BLEU DE CHANEL EAU DE PARFUM',
+            description: 'An artistic expression of masculine elegance. For the creative spirit.',
+            essence: 'Expression & Artistry',
+            collection: 'LES EXCLUSIVES POUR LUI',
+            spirit: 'Creative Sophistication'
         },
         authentic: {
-            onmove: {
-                art: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                connections: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' }
-            },
-            adventure: {
-                art: { modern: 'POUR MONSIEUR', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM' }
-            },
-            people: {
-                art: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' },
-                connections: { modern: 'POUR UN HOMME', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'PLATINUM' },
-                creating: { modern: 'ALLURE HOMME', sensual: 'ALLURE HOMME SPORT', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'ALLURE HOMME INTENSE' }
-            },
-            nature: {
-                art: { modern: 'POUR MONSIEUR', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' },
-                connections: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME INTENSE', timeless: 'POUR MONSIEUR CONCENTRÉ', bold: 'ALLURE HOMME INTENSE' },
-                creating: { modern: 'ALLURE HOMME', sensual: 'POUR UN HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM ÉGOÏSTE' },
-                balance: { modern: 'ALLURE HOMME SPORT', sensual: 'ALLURE HOMME', timeless: 'POUR MONSIEUR', bold: 'PLATINUM' }
-            }
+            name: 'PLATINUM ÉGOÏSTE',
+            description: 'Pure, refined, and authentically himself. A fragrance of true substance.',
+            essence: 'Truth & Simplicity',
+            collection: 'LES EXCLUSIVES POUR LUI',
+            spirit: 'Authentic Luxury'
         }
     }
 };
 
-// Fragrance Descriptions
-const fragranceDescriptions = {
-    'ALLURE SPORT': 'Fresh, sporty, and energetic. Perfect for the always-on-the-move individual.',
-    'CHANCE': 'Lucky and charming. A fragrance for those who seize every moment.',
-    'N°5': 'Timeless elegance. The most iconic fragrance, symbolizing pure femininity.',
-    'COCO MADEMOISELLE': 'Bold and spirited. For the modern woman with attitude.',
-    'GABRIELLE': 'Radiant and free-spirited. Celebrating self-expression and authenticity.',
-    'CRISTALLE': 'Fresh and luminous. Elegant simplicity in every spray.',
-    'COCO': 'Sensual and intriguing. Classic luxury with a mysterious edge.',
-    'COCO NOIR': 'Dark and passionate. Intensity wrapped in sophistication.',
-    'ALLURE': 'Seductive and captivating. Timeless allure that never fades.',
-    'MADEMOISELLE': 'Young, playful, and daring. For the independent spirit.',
-    'ALLURE HOMME SPORT': 'Dynamic and fresh. For the active modern man.',
-    'ALLURE HOMME': 'Confident and sensual. The embodiment of masculine elegance.',
-    'POUR MONSIEUR': 'Classic and distinguished. Timeless masculine sophistication.',
-    'PLATINUM': 'Modern and bold. For the man with contemporary vision.',
-    'POUR UN HOMME': 'Refined and elegant. Traditional luxury meets modern sensibility.',
-    'ALLURE HOMME INTENSE': 'Powerful and passionate. Intensity with refinement.',
-    'GABRIELLE ESSENCE': 'Pure essence of femininity. Light, fresh, and liberating.',
-    'GABRIELLE CHANEL': 'Full-bodied and expressive. The complete Gabrielle experience.',
-    'CHANCE EAU TENDRE': 'Soft and romantic. For moments of tender emotion.',
-    'CHANCE EAU FRAÎCHE': 'Crisp and uplifting. Pure joy in a bottle.',
-    'CRISTALLE EAU VERTE': 'Green and refreshing. Nature\'s freshness captured.',
-    'N°5 L\'EAU': 'Fresh interpretation of a legend. Modern take on a classic.',
-    'N°5 EAU PREMIÈRE': 'The first encounter. Light and transcendent.',
-    'POUR MONSIEUR CONCENTRÉ': 'Pure concentration. Maximum intensity and depth.',
-    'PLATINUM ÉGOÏSTE': 'Unapologetically bold. Pure individual expression.',
-    'ALLURE HOMME SPORT EXTREME': 'Ultimate intensity for the extreme sportsman.',
-    'ALLURE HOMME SPORT EX': 'Extreme sports energy. Maximum performance fragrance.'
-};
+// Answer Recording Functions
+function recordAnswer(question, answer) {
+    switch(question) {
+        case 3:
+            quizState.answers.personality = answer;
+            break;
+        case 4:
+            quizState.answers.drive = answer;
+            break;
+        case 5:
+            quizState.answers.inspiration = answer;
+            break;
+        case 6:
+            quizState.answers.visual = answer;
+            break;
+    }
+    console.log('Answer recorded:', { question, answer, quizState });
+}
 
 // Navigation Functions
 function navigateTo(screen) {
@@ -270,6 +148,13 @@ function navigateTo(screen) {
         quizState.currentScreen = screen;
         updateBackButton();
         updateProgressBar();
+        
+        // Calculate and display results when reaching screen 7
+        if (screen === 7) {
+            calculateScores();
+            determineDominantArchetype();
+            displayResults();
+        }
     }
 }
 
@@ -297,62 +182,130 @@ function updateProgressBar() {
 // State Management Functions
 function setGender(gender) {
     quizState.gender = gender;
+    console.log('Gender set to:', gender);
 }
 
 function setPersonality(personality) {
-    quizState.personality = personality;
+    quizState.answers.personality = personality;
+    recordAnswer(3, personality);
 }
 
 function setDrive(drive) {
-    quizState.drive = drive;
+    quizState.answers.drive = drive;
+    recordAnswer(4, drive);
 }
 
 function setInspiration(inspiration) {
-    quizState.inspiration = inspiration;
+    quizState.answers.inspiration = inspiration;
+    recordAnswer(5, inspiration);
 }
 
 function setVisual(visual) {
-    quizState.visual = visual;
+    quizState.answers.visual = visual;
+    recordAnswer(6, visual);
 }
 
-// Results Calculation and Display
+// Scoring System
+function calculateScores() {
+    // Reset scores
+    quizState.scores = {
+        visionary: 0,
+        emancipated: 0,
+        creative: 0,
+        authentic: 0
+    };
+
+    // Question 3 - Personality (70% weight)
+    if (quizState.answers.personality) {
+        const personalityScores = archetypeMap.personality[quizState.answers.personality];
+        Object.keys(personalityScores).forEach(archetype => {
+            quizState.scores[archetype] += personalityScores[archetype];
+        });
+    }
+
+    // Question 4 - Drive (10% weight)
+    if (quizState.answers.drive) {
+        const driveScores = archetypeMap.drive[quizState.answers.drive];
+        Object.keys(driveScores).forEach(archetype => {
+            quizState.scores[archetype] += driveScores[archetype];
+        });
+    }
+
+    // Question 5 - Inspiration (10% weight)
+    if (quizState.answers.inspiration) {
+        const inspirationScores = archetypeMap.inspiration[quizState.answers.inspiration];
+        Object.keys(inspirationScores).forEach(archetype => {
+            quizState.scores[archetype] += inspirationScores[archetype];
+        });
+    }
+
+    // Question 6 - Visual (10% weight)
+    if (quizState.answers.visual) {
+        const visualScores = archetypeMap.visual[quizState.answers.visual];
+        Object.keys(visualScores).forEach(archetype => {
+            quizState.scores[archetype] += visualScores[archetype];
+        });
+    }
+
+    console.log('Calculated scores:', quizState.scores);
+}
+
+function determineDominantArchetype() {
+    // Find the archetype with the highest score
+    let maxScore = Math.max(
+        quizState.scores.visionary,
+        quizState.scores.emancipated,
+        quizState.scores.creative,
+        quizState.scores.authentic
+    );
+
+    // Determine dominant archetype
+    if (quizState.scores.visionary === maxScore) {
+        quizState.dominantArchetype = 'visionary';
+    } else if (quizState.scores.emancipated === maxScore) {
+        quizState.dominantArchetype = 'emancipated';
+    } else if (quizState.scores.creative === maxScore) {
+        quizState.dominantArchetype = 'creative';
+    } else if (quizState.scores.authentic === maxScore) {
+        quizState.dominantArchetype = 'authentic';
+    }
+
+    console.log('Dominant archetype:', quizState.dominantArchetype);
+    console.log('Score breakdown:', quizState.scores);
+}
+
+// Results Display
 function displayResults() {
-    const fragrance = fragrances[quizState.gender][quizState.personality][quizState.drive][quizState.inspiration][quizState.visual];
-    const description = fragranceDescriptions[fragrance];
-    
-    const collection = getCollection(quizState.gender);
-    const essence = getEssence(quizState.personality);
-    const spirit = getSpirit(quizState.visual);
-    
-    document.getElementById('result-name').textContent = fragrance;
-    document.getElementById('result-description').textContent = description;
-    document.getElementById('result-collection').textContent = collection;
-    document.getElementById('result-essence').textContent = essence;
-    document.getElementById('result-spirit').textContent = spirit;
-}
+    const recommendation = fragranceRecommendations[quizState.gender][quizState.dominantArchetype];
+    quizState.recommendedFragrance = recommendation;
 
-function getCollection(gender) {
-    return gender === 'elle' ? 'LES EXCLUSIVES POUR ELLE' : 'LES EXCLUSIVES POUR LUI';
-}
+    // Update result card
+    document.getElementById('result-name').textContent = recommendation.name;
+    document.getElementById('result-description').textContent = recommendation.description;
+    document.getElementById('result-collection').textContent = recommendation.collection;
+    document.getElementById('result-essence').textContent = recommendation.essence;
+    document.getElementById('result-spirit').textContent = recommendation.spirit;
 
-function getEssence(personality) {
-    const essences = {
-        'visionary': 'Innovation & Vision',
-        'emancipated': 'Liberation & Power',
-        'creative': 'Expression & Artistry',
-        'authentic': 'Truth & Simplicity'
-    };
-    return essences[personality];
-}
+    // Display archetype info
+    const archetypeInfo = document.getElementById('archetype-info');
+    if (archetypeInfo) {
+        const archetypeCapitalized = quizState.dominantArchetype.charAt(0).toUpperCase() + quizState.dominantArchetype.slice(1);
+        archetypeInfo.textContent = `Your Primary Archetype: ${archetypeCapitalized}`;
+    }
 
-function getSpirit(visual) {
-    const spirits = {
-        'modern': 'Contemporary Luxury',
-        'timeless': 'Eternal Elegance',
-        'sensual': 'Passionate Warmth',
-        'bold': 'Daring Individuality'
-    };
-    return spirits[visual];
+    // Display score breakdown
+    const scoreBreakdown = document.getElementById('score-breakdown');
+    if (scoreBreakdown) {
+        scoreBreakdown.innerHTML = `
+            <strong>Archetype Scores:</strong><br>
+            Visionary: ${quizState.scores.visionary} points<br>
+            Emancipated: ${quizState.scores.emancipated} points<br>
+            Creative: ${quizState.scores.creative} points<br>
+            Authentic: ${quizState.scores.authentic} points
+        `;
+    }
+
+    console.log('Results displayed:', recommendation);
 }
 
 // Reset Quiz
@@ -360,12 +313,22 @@ function resetQuiz() {
     quizState = {
         currentScreen: 1,
         gender: '',
-        personality: '',
-        drive: '',
-        inspiration: '',
-        visual: ''
+        answers: {
+            personality: null,
+            drive: null,
+            inspiration: null,
+            visual: null
+        },
+        scores: {
+            visionary: 0,
+            emancipated: 0,
+            creative: 0,
+            authentic: 0
+        },
+        dominantArchetype: null,
+        recommendedFragrance: null
     };
-    
+
     const allScreens = document.querySelectorAll('.screen');
     allScreens.forEach(screen => screen.classList.remove('active'));
     document.getElementById('screen-1').classList.add('active');
@@ -377,16 +340,5 @@ function resetQuiz() {
 document.addEventListener('DOMContentLoaded', function() {
     updateBackButton();
     updateProgressBar();
-    
-    // Add event listener to trigger results when navigating to screen 7
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (quizState.currentScreen === 7) {
-                displayResults();
-            }
-        });
-    });
-    
-    const screen7 = document.getElementById('screen-7');
-    observer.observe(screen7, { attributes: true });
+    console.log('Quiz initialized');
 });
