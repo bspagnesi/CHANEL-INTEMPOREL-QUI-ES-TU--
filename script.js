@@ -54,71 +54,95 @@ const archetypeMap = {
     }
 };
 
-// Fragrance Recommendations by Archetype
+// Fragrance Recommendations with Details
 const fragranceRecommendations = {
     elle: {
         visionary: {
             name: 'CHANEL N°5 L\'EAU',
-            description: 'A fresh interpretation of the iconic legend. For the visionary woman who sees beyond the present.',
-            essence: 'Innovation & Visionary Spirit',
+            description: 'A fresh interpretation of the iconic legend. For the visionary woman who sees beyond the present and creates the future.',
+            keyNotes: ['Bergamot', 'Ylang-Ylang', 'Jasmine', 'Sandalwood'],
+            image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=80',
+            url: 'https://www.chanel.com/en_US/fragrances/n5/',
             collection: 'LES EXCLUSIVES POUR ELLE',
+            essence: 'Innovation & Visionary Spirit',
             spirit: 'Timeless with a Modern Twist'
         },
         emancipated: {
             name: 'COCO MADEMOISELLE',
-            description: 'Bold, spirited, and unapologetically confident. For the woman who defines her own path.',
-            essence: 'Liberation & Power',
+            description: 'Bold, spirited, and unapologetically confident. For the woman who defines her own path and inspires others to follow.',
+            keyNotes: ['Orange', 'Jasmine', 'Vetiver', 'Patchouli'],
+            image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80',
+            url: 'https://www.chanel.com/en_US/fragrances/coco-mademoiselle/',
             collection: 'LES EXCLUSIVES POUR ELLE',
+            essence: 'Liberation & Power',
             spirit: 'Bold Individuality'
         },
         creative: {
             name: 'GABRIELLE CHANEL ESSENCE',
-            description: 'Pure expression of femininity and creativity. For the artist in every woman.',
-            essence: 'Expression & Artistry',
+            description: 'Pure expression of femininity and creativity. For the artist in every woman who refuses to be defined by a single identity.',
+            keyNotes: ['Neroli', 'Peony', 'Tuberose', 'Musk'],
+            image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400&q=80',
+            url: 'https://www.chanel.com/en_US/fragrances/gabrielle-chanel-essence/',
             collection: 'LES EXCLUSIVES POUR ELLE',
+            essence: 'Expression & Artistry',
             spirit: 'Radiant Creativity'
         },
         authentic: {
             name: 'CHANCE EAU TENDRE',
-            description: 'Soft, romantic, and beautifully authentic. For the woman who finds truth in simplicity.',
-            essence: 'Truth & Simplicity',
+            description: 'Soft, romantic, and beautifully authentic. For the woman who finds truth in simplicity and beauty in authenticity.',
+            keyNotes: ['Pink Pepper', 'Jasmine', 'Ambroxan'],
+            image: 'https://images.unsplash.com/photo-1506755855726-667a0edf01d0?w=400&q=80',
+            url: 'https://www.chanel.com/en_US/fragrances/chance-eau-tendre/',
             collection: 'LES EXCLUSIVES POUR ELLE',
+            essence: 'Truth & Simplicity',
             spirit: 'Tender Authenticity'
         }
     },
     lui: {
         visionary: {
             name: 'BLEU DE CHANEL PARFUM',
-            description: 'A visionary fragrance for the forward-thinking man. Sophisticated and innovative.',
-            essence: 'Innovation & Visionary Spirit',
+            description: 'A visionary fragrance for the forward-thinking man. Sophisticated and innovative, it reflects a man who shapes the future.',
+            keyNotes: ['Lemon', 'Ginger', 'Sandalwood', 'Incense'],
+            image: 'https://images.unsplash.com/photo-1620293915537-a3a5b5a2b3c5?w=400&q=80',
+            url: 'https://www.chanel.com/en_US/fragrances/bleu-de-chanel/',
             collection: 'LES EXCLUSIVES POUR LUI',
+            essence: 'Innovation & Visionary Spirit',
             spirit: 'Timeless Vision'
         },
         emancipated: {
             name: 'ALLURE HOMME SPORT',
-            description: 'Dynamic and liberated. For the man who writes his own rules.',
-            essence: 'Liberation & Power',
+            description: 'Dynamic and liberated. For the man who writes his own rules and lives life on his own terms with confidence and style.',
+            keyNotes: ['Bergamot', 'Lavender', 'Cedarwood', 'Musk'],
+            image: 'https://images.unsplash.com/photo-1534356453888-bfc9eaea868d?w=400&q=80',
+            url: 'https://www.chanel.com/en_US/fragrances/allure-homme-sport/',
             collection: 'LES EXCLUSIVES POUR LUI',
+            essence: 'Liberation & Power',
             spirit: 'Bold Individuality'
         },
         creative: {
             name: 'BLEU DE CHANEL EAU DE PARFUM',
-            description: 'An artistic expression of masculine elegance. For the creative spirit.',
-            essence: 'Expression & Artistry',
+            description: 'An artistic expression of masculine elegance. For the creative spirit who channels passion into his unique vision of style.',
+            keyNotes: ['Citrus', 'Ambroxan', 'Sandalwood'],
+            image: 'https://images.unsplash.com/photo-1579288282087-9d01f67fcc1c?w=400&q=80',
+            url: 'https://www.chanel.com/en_US/fragrances/bleu-de-chanel-eau-de-parfum/',
             collection: 'LES EXCLUSIVES POUR LUI',
+            essence: 'Expression & Artistry',
             spirit: 'Creative Sophistication'
         },
         authentic: {
             name: 'PLATINUM ÉGOÏSTE',
-            description: 'Pure, refined, and authentically himself. A fragrance of true substance.',
-            essence: 'Truth & Simplicity',
+            description: 'Pure, refined, and authentically himself. A fragrance of true substance for the man who values authenticity above all else.',
+            keyNotes: ['Cardamom', 'Vetiver', 'Sandalwood', 'Amber'],
+            image: 'https://images.unsplash.com/photo-1548695607-32e4395fcb5e?w=400&q=80',
+            url: 'https://www.chanel.com/en_US/fragrances/platinum-egoiste/',
             collection: 'LES EXCLUSIVES POUR LUI',
+            essence: 'Truth & Simplicity',
             spirit: 'Authentic Luxury'
         }
     }
 };
 
-// Answer Recording Functions
+// Record Answer Function
 function recordAnswer(question, answer) {
     switch(question) {
         case 3:
@@ -279,19 +303,23 @@ function displayResults() {
     const recommendation = fragranceRecommendations[quizState.gender][quizState.dominantArchetype];
     quizState.recommendedFragrance = recommendation;
 
-    // Update result card
-    document.getElementById('result-name').textContent = recommendation.name;
-    document.getElementById('result-description').textContent = recommendation.description;
-    document.getElementById('result-collection').textContent = recommendation.collection;
-    document.getElementById('result-essence').textContent = recommendation.essence;
-    document.getElementById('result-spirit').textContent = recommendation.spirit;
+    // Update fragrance image
+    document.getElementById('fragrance-image').src = recommendation.image;
+    document.getElementById('fragrance-image').alt = recommendation.name;
 
-    // Display archetype info
-    const archetypeInfo = document.getElementById('archetype-info');
-    if (archetypeInfo) {
-        const archetypeCapitalized = quizState.dominantArchetype.charAt(0).toUpperCase() + quizState.dominantArchetype.slice(1);
-        archetypeInfo.textContent = `Your Primary Archetype: ${archetypeCapitalized}`;
-    }
+    // Update fragrance name & description
+    document.getElementById('fragrance-name').textContent = recommendation.name;
+    document.getElementById('fragrance-description').textContent = recommendation.description;
+
+    // Update key notes
+    const keyNotesList = document.getElementById('key-notes-list');
+    keyNotesList.innerHTML = recommendation.keyNotes.map(note => 
+        `<span class="note-tag">${note}</span>`
+    ).join('');
+
+    // Update archetype display
+    const archetypeCapitalized = quizState.dominantArchetype.charAt(0).toUpperCase() + quizState.dominantArchetype.slice(1);
+    document.getElementById('archetype-display').innerHTML = `Your Archetype: <strong>${archetypeCapitalized}</strong>`;
 
     // Display score breakdown
     const scoreBreakdown = document.getElementById('score-breakdown');
@@ -306,6 +334,13 @@ function displayResults() {
     }
 
     console.log('Results displayed:', recommendation);
+}
+
+// Open Fragrance Page
+function openFragrancePage() {
+    if (quizState.recommendedFragrance && quizState.recommendedFragrance.url) {
+        window.open(quizState.recommendedFragrance.url, '_blank');
+    }
 }
 
 // Reset Quiz
