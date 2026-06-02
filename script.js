@@ -61,7 +61,7 @@ const fragranceRecommendations = {
             name: 'CHANEL N°5 L\'EAU',
             description: 'A fresh interpretation of the iconic legend. For the visionary woman who sees beyond the present and creates the future.',
             keyNotes: ['Bergamot', 'Ylang-Ylang', 'Jasmine', 'Sandalwood'],
-            image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=80',
+            image: 'images/n5-eau-elle.jpg',
             url: 'https://www.chanel.com/en_US/fragrances/n5/',
             collection: 'LES EXCLUSIVES POUR ELLE',
             essence: 'Innovation & Visionary Spirit',
@@ -71,7 +71,7 @@ const fragranceRecommendations = {
             name: 'COCO MADEMOISELLE',
             description: 'Bold, spirited, and unapologetically confident. For the woman who defines her own path and inspires others to follow.',
             keyNotes: ['Orange', 'Jasmine', 'Vetiver', 'Patchouli'],
-            image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80',
+            image: 'images/coco-mademoiselle-elle.jpg',
             url: 'https://www.chanel.com/en_US/fragrances/coco-mademoiselle/',
             collection: 'LES EXCLUSIVES POUR ELLE',
             essence: 'Liberation & Power',
@@ -81,7 +81,7 @@ const fragranceRecommendations = {
             name: 'GABRIELLE CHANEL ESSENCE',
             description: 'Pure expression of femininity and creativity. For the artist in every woman who refuses to be defined by a single identity.',
             keyNotes: ['Neroli', 'Peony', 'Tuberose', 'Musk'],
-            image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400&q=80',
+            image: 'images/gabrielle-essence-elle.jpg',
             url: 'https://www.chanel.com/en_US/fragrances/gabrielle-chanel-essence/',
             collection: 'LES EXCLUSIVES POUR ELLE',
             essence: 'Expression & Artistry',
@@ -91,7 +91,7 @@ const fragranceRecommendations = {
             name: 'CHANCE EAU TENDRE',
             description: 'Soft, romantic, and beautifully authentic. For the woman who finds truth in simplicity and beauty in authenticity.',
             keyNotes: ['Pink Pepper', 'Jasmine', 'Ambroxan'],
-            image: 'https://images.unsplash.com/photo-1506755855726-667a0edf01d0?w=400&q=80',
+            image: 'images/chance-eau-tendre-elle.jpg',
             url: 'https://www.chanel.com/en_US/fragrances/chance-eau-tendre/',
             collection: 'LES EXCLUSIVES POUR ELLE',
             essence: 'Truth & Simplicity',
@@ -103,7 +103,7 @@ const fragranceRecommendations = {
             name: 'BLEU DE CHANEL PARFUM',
             description: 'A visionary fragrance for the forward-thinking man. Sophisticated and innovative, it reflects a man who shapes the future.',
             keyNotes: ['Lemon', 'Ginger', 'Sandalwood', 'Incense'],
-            image: 'https://images.unsplash.com/photo-1620293915537-a3a5b5a2b3c5?w=400&q=80',
+            image: 'images/bleu-de-chanel-parfum-lui.jpg',
             url: 'https://www.chanel.com/en_US/fragrances/bleu-de-chanel/',
             collection: 'LES EXCLUSIVES POUR LUI',
             essence: 'Innovation & Visionary Spirit',
@@ -113,7 +113,7 @@ const fragranceRecommendations = {
             name: 'ALLURE HOMME SPORT',
             description: 'Dynamic and liberated. For the man who writes his own rules and lives life on his own terms with confidence and style.',
             keyNotes: ['Bergamot', 'Lavender', 'Cedarwood', 'Musk'],
-            image: 'https://images.unsplash.com/photo-1534356453888-bfc9eaea868d?w=400&q=80',
+            image: 'images/allure-homme-sport-lui.jpg',
             url: 'https://www.chanel.com/en_US/fragrances/allure-homme-sport/',
             collection: 'LES EXCLUSIVES POUR LUI',
             essence: 'Liberation & Power',
@@ -123,7 +123,7 @@ const fragranceRecommendations = {
             name: 'BLEU DE CHANEL EAU DE PARFUM',
             description: 'An artistic expression of masculine elegance. For the creative spirit who channels passion into his unique vision of style.',
             keyNotes: ['Citrus', 'Ambroxan', 'Sandalwood'],
-            image: 'https://images.unsplash.com/photo-1579288282087-9d01f67fcc1c?w=400&q=80',
+            image: 'images/bleu-de-chanel-eau-de-parfum-lui.jpg',
             url: 'https://www.chanel.com/en_US/fragrances/bleu-de-chanel-eau-de-parfum/',
             collection: 'LES EXCLUSIVES POUR LUI',
             essence: 'Expression & Artistry',
@@ -133,7 +133,7 @@ const fragranceRecommendations = {
             name: 'PLATINUM ÉGOÏSTE',
             description: 'Pure, refined, and authentically himself. A fragrance of true substance for the man who values authenticity above all else.',
             keyNotes: ['Cardamom', 'Vetiver', 'Sandalwood', 'Amber'],
-            image: 'https://images.unsplash.com/photo-1548695607-32e4395fcb5e?w=400&q=80',
+            image: 'images/platinum-egoiste-lui.jpg',
             url: 'https://www.chanel.com/en_US/fragrances/platinum-egoiste/',
             collection: 'LES EXCLUSIVES POUR LUI',
             essence: 'Truth & Simplicity',
@@ -296,9 +296,26 @@ function displayResults() {
     const recommendation = fragranceRecommendations[quizState.gender][quizState.dominantArchetype];
     quizState.recommendedFragrance = recommendation;
 
+    const imgElement = document.getElementById('fragrance-image');
+    
     // Update fragrance image
-    document.getElementById('fragrance-image').src = recommendation.image;
-    document.getElementById('fragrance-image').alt = recommendation.name;
+    imgElement.src = recommendation.image;
+    imgElement.alt = recommendation.name;
+    
+    // Add error handler for missing images
+    imgElement.onerror = function() {
+        console.warn('Image not found at ' + recommendation.image + '. Please add the image file to the images/ folder.');
+        // Create a placeholder with the fragrance name
+        this.style.display = 'none';
+        const wrapper = this.parentElement;
+        if (!wrapper.querySelector('.placeholder-image')) {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'placeholder-image';
+            placeholder.style.cssText = 'width: 280px; height: 350px; background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%); display: flex; align-items: center; justify-content: center; border-radius: 3px;';
+            placeholder.innerHTML = `<p style="text-align: center; color: #999; font-size: 14px; padding: 20px;">${recommendation.name}</p>`;
+            wrapper.appendChild(placeholder);
+        }
+    };
 
     // Update fragrance name & description
     document.getElementById('fragrance-name').textContent = recommendation.name;
