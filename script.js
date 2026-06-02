@@ -158,7 +158,6 @@ function recordAnswer(question, answer) {
             quizState.answers.visual = answer;
             break;
     }
-    console.log('Answer recorded:', { question, answer, quizState });
 }
 
 // Navigation Functions
@@ -206,7 +205,6 @@ function updateProgressBar() {
 // State Management Functions
 function setGender(gender) {
     quizState.gender = gender;
-    console.log('Gender set to:', gender);
 }
 
 function setPersonality(personality) {
@@ -270,8 +268,6 @@ function calculateScores() {
             quizState.scores[archetype] += visualScores[archetype];
         });
     }
-
-    console.log('Calculated scores:', quizState.scores);
 }
 
 function determineDominantArchetype() {
@@ -293,9 +289,6 @@ function determineDominantArchetype() {
     } else if (quizState.scores.authentic === maxScore) {
         quizState.dominantArchetype = 'authentic';
     }
-
-    console.log('Dominant archetype:', quizState.dominantArchetype);
-    console.log('Score breakdown:', quizState.scores);
 }
 
 // Results Display
@@ -319,21 +312,19 @@ function displayResults() {
 
     // Update archetype display
     const archetypeCapitalized = quizState.dominantArchetype.charAt(0).toUpperCase() + quizState.dominantArchetype.slice(1);
-    document.getElementById('archetype-display').innerHTML = `Your Archetype: <strong>${archetypeCapitalized}</strong>`;
+    document.getElementById('archetype-display').textContent = `Your Archetype: ${archetypeCapitalized}`;
 
     // Display score breakdown
     const scoreBreakdown = document.getElementById('score-breakdown');
     if (scoreBreakdown) {
         scoreBreakdown.innerHTML = `
-            <strong>Archetype Scores:</strong><br>
+            <strong>ARCHETYPE SCORES</strong><br>
             Visionary: ${quizState.scores.visionary} points<br>
             Emancipated: ${quizState.scores.emancipated} points<br>
             Creative: ${quizState.scores.creative} points<br>
             Authentic: ${quizState.scores.authentic} points
         `;
     }
-
-    console.log('Results displayed:', recommendation);
 }
 
 // Open Fragrance Page
@@ -375,5 +366,4 @@ function resetQuiz() {
 document.addEventListener('DOMContentLoaded', function() {
     updateBackButton();
     updateProgressBar();
-    console.log('Quiz initialized');
 });
