@@ -194,6 +194,22 @@ body {
     background-color: transparent;
 }
 
+.btn-discover {
+    border: 2px solid var(--primary-color);
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 14px 50px;
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    margin-top: 30px;
+    width: auto;
+}
+
+.btn-discover:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
 .button-group {
     display: flex;
     gap: 20px;
@@ -252,76 +268,162 @@ body {
 }
 
 /* ============================================
-   RESULTS
+   FRAGRANCE RECOMMENDATION
    ============================================ */
 
 .results-content {
     padding: 60px 40px;
 }
 
-/* Archetype Badge */
-.archetype-badge {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    padding: 20px 40px;
-    margin-bottom: 40px;
-    display: inline-block;
-    border-radius: 4px;
-    animation: fadeIn 0.8s ease-in-out;
+.fragrance-container {
+    display: flex;
+    gap: 60px;
+    max-width: 1000px;
+    align-items: center;
+    margin-bottom: 60px;
 }
 
-.archetype-badge p {
+.fragrance-image-wrapper {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
+}
+
+.fragrance-image {
+    max-width: 280px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
+}
+
+.fragrance-info {
+    flex: 1;
+    text-align: left;
+}
+
+.fragrance-name {
     font-family: var(--font-serif);
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin: 0;
-}
-
-/* Result Card */
-.result-card {
-    background-color: var(--accent-color);
-    padding: 60px 40px;
-    margin-bottom: 40px;
-    border: 1px solid #e0e0e0;
-    max-width: 600px;
-    animation: fadeIn 1s ease-in-out;
-}
-
-.result-name {
-    font-family: var(--font-serif);
-    font-size: 42px;
+    font-size: 48px;
     font-weight: 700;
     letter-spacing: 2px;
     margin-bottom: 20px;
     color: var(--text-color);
+    line-height: 1.1;
 }
 
-.result-description {
+.fragrance-description {
     font-size: 16px;
     line-height: 1.8;
+    color: var(--text-color);
+    opacity: 0.85;
     margin-bottom: 40px;
+}
+
+.key-notes {
+    margin: 40px 0;
+    padding: 30px 0;
+    border-top: 1px solid #d0d0d0;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+.key-notes h3 {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
     color: var(--text-color);
     opacity: 0.8;
 }
 
-.result-details {
-    text-align: left;
-    padding-top: 30px;
-    border-top: 1px solid #d0d0d0;
+.notes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.result-details p {
-    margin: 12px 0;
+.note-tag {
+    background-color: var(--accent-color);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--text-color);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.archetype-info {
+    margin: 25px 0;
     font-size: 14px;
     color: var(--text-color);
 }
 
-.result-details strong {
-    opacity: 0.8;
+.archetype-info strong {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 700;
 }
 
-/* Score Breakdown */
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.fade-in-up-delay-1 {
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+.fade-in-up-delay-2 {
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+}
+
+.fade-in-up-delay-3 {
+    animation: fadeInUp 0.8s ease-out 0.6s forwards;
+    opacity: 0;
+}
+
+.fade-in-up-delay-4 {
+    animation: fadeInUp 0.8s ease-out 0.8s forwards;
+    opacity: 0;
+}
+
+.fade-in-up-delay-5 {
+    animation: fadeInUp 0.8s ease-out 1s forwards;
+    opacity: 0;
+}
+
+/* ============================================
+   SCORE BREAKDOWN
+   ============================================ */
+
 .score-breakdown {
     background-color: var(--secondary-color);
     border: 2px solid var(--primary-color);
@@ -330,7 +432,6 @@ body {
     max-width: 600px;
     text-align: left;
     border-radius: 4px;
-    animation: fadeIn 1.2s ease-in-out;
 }
 
 #score-breakdown {
@@ -346,21 +447,6 @@ body {
     font-family: var(--font-serif);
     font-size: 16px;
     letter-spacing: 1px;
-}
-
-/* ============================================
-   ANIMATIONS
-   ============================================ */
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* ============================================
@@ -419,6 +505,21 @@ body {
 /* ============================================
    RESPONSIVE DESIGN
    ============================================ */
+
+@media (max-width: 968px) {
+    .fragrance-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .fragrance-image-wrapper {
+        min-width: auto;
+    }
+
+    .fragrance-name {
+        font-size: 38px;
+    }
+}
 
 @media (max-width: 768px) {
     .header-content {
@@ -494,23 +595,16 @@ body {
         font-size: 11px;
     }
 
-    .archetype-badge {
-        padding: 15px 30px;
-        margin-bottom: 30px;
+    .fragrance-image {
+        max-width: 220px;
     }
 
-    .archetype-badge p {
-        font-size: 16px;
+    .fragrance-name {
+        font-size: 28px;
     }
 
-    .result-card {
-        padding: 40px 20px;
-        margin-bottom: 30px;
-    }
-
-    .result-name {
-        font-size: 32px;
-        letter-spacing: 1px;
+    .fragrance-description {
+        font-size: 14px;
     }
 
     .score-breakdown {
@@ -606,21 +700,29 @@ body {
         font-size: 10px;
     }
 
-    .archetype-badge {
-        padding: 12px 20px;
-        margin-bottom: 20px;
+    .fragrance-image {
+        max-width: 180px;
     }
 
-    .archetype-badge p {
-        font-size: 14px;
+    .fragrance-name {
+        font-size: 24px;
     }
 
-    .result-name {
-        font-size: 26px;
-    }
-
-    .result-details p {
+    .fragrance-description {
         font-size: 13px;
+    }
+
+    .key-notes h3 {
+        font-size: 12px;
+    }
+
+    .note-tag {
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+
+    .results-content {
+        padding: 40px 20px;
     }
 
     .score-breakdown {
